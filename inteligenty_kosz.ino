@@ -58,11 +58,47 @@ String MaterialName(int code){
 
 
 
+// DIODY - DEFINICJA PINOW
+
+#define LED0_PIN 2
+#define LED1_PIN 3
+#define LED2_PIN 4
+
+
+
+// Funkcja zapalajaca odpowiednia diode, na wejscie kod kategorii odpadu
+
+void SignalLED(int code){
+  int pin = 0;
+  switch(code){
+    case 0:
+      pin = LED0_PIN;
+      break;
+    case 1:
+      pin = LED1_PIN;
+      break;
+    case 2:
+      pin = LED2_PIN;
+      break;
+  }
+
+  if(pin != 0)
+  {
+    digitalWrite(pin,HIGH);
+    delay(1000);
+    digitalWrite(pin, LOW);
+  }
+}
+
 
 
 void setup() {
   // put your setup code here, to run once:
   Serial.begin(9600);
+
+  pinMode(LED0_PIN, OUTPUT);
+  pinMode(LED1_PIN, OUTPUT);
+  pinMode(LED2_PIN, OUTPUT);
 
 }
 
@@ -70,6 +106,8 @@ void loop() {
   // put your main code here, to run repeatedly:
   if(Serial.available() > 0) {
     String inputCode = Serial.readStringUntil('\n');
-    Serial.println(MaterialName(FindCode(inputCode)));
+    int materialCode = FindCode(inputCode);
+    Serial.println(MaterialName(materialCode));
+    SignalLED(materialCode);
   }
 }
