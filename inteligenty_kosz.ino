@@ -9,15 +9,20 @@
  * 2 - szklo
  */
 
+//HARDWARE
+//RED(+)->D5
+//YELLOW(+)->D2
+//GREEN(+)->D1
 
 // LISTA PRODUKTOW
 // KOD_KRESKOWY | KATEGORIA_ODPADU
 
-int listSize = 2; //ilosc produktow
+int listSize = 3; //ilosc produktow
 
 String barCodes [][2] = {
   {"1234","0"},
-  {"3456","1"}
+  {"3456","1"},
+  {"5678","2"}
 };
 
 
@@ -60,9 +65,9 @@ String MaterialName(int code){
 
 // DIODY - DEFINICJA PINOW
 
-#define LED0_PIN 2
-#define LED1_PIN 3
-#define LED2_PIN 4
+#define LED0_PIN 4
+#define LED1_PIN 14
+#define LED2_PIN 5
 
 
 
@@ -99,6 +104,9 @@ void setup() {
   pinMode(LED0_PIN, OUTPUT);
   pinMode(LED1_PIN, OUTPUT);
   pinMode(LED2_PIN, OUTPUT);
+  digitalWrite(LED0_PIN, LOW); //inicjalne gaszenie diody
+  digitalWrite(LED1_PIN, LOW); //inicjalne gaszenie diody
+  digitalWrite(LED2_PIN, LOW); //inicjalne gaszenie diody
 
 }
 
