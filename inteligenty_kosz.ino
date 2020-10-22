@@ -17,12 +17,13 @@
 // LISTA PRODUKTOW
 // KOD_KRESKOWY | KATEGORIA_ODPADU
 
-int listSize = 3; //ilosc produktow
+int listSize = 4; //ilosc produktow
 
 String barCodes [][2] = {
   {"1234","0"},
   {"3456","1"},
-  {"5678","2"}
+  {"5678","2"},
+  {"90343766","1"}
 };
 
 
@@ -68,60 +69,75 @@ String MaterialName(int code){
 #define LED0_PIN 4
 #define LED1_PIN 14
 #define LED2_PIN 5
-#define ERRORLED_PIN LED_BUILTIN
+
 
 
 
 // Funkcja zapalajaca odpowiednia diode, na wejscie kod kategorii odpadu
 
 void SignalLED(int code){
-  int pin = 0;
-  switch(code){
-    case 0:
-      pin = LED0_PIN;
-      break;
-    case 1:
-      pin = LED1_PIN;
-      break;
-    case 2:
-      pin = LED2_PIN;
-      break;
-    case -1:
-      pin = ERRORLED_PIN;
-      break;
-  }
 
-  if(pin != 0)
+  if(code == 0 || code == 1 || code == 2)
   {
+    int pin = 0;
+    
+    switch(code){
+      case 0:
+        pin = LED0_PIN;
+        break;
+      case 1:
+        pin = LED1_PIN;
+        break;
+      case 2:
+        pin = LED2_PIN;
+        break;
+    }
+
     digitalWrite(pin,HIGH);
     delay(1000);
     digitalWrite(pin, LOW);
+  }
+  else //gdy nie znaleziono kodu w bazie - migaj wszystkimi diodami
+  {
+    digitalWrite(LED0_PIN,HIGH);
+    digitalWrite(LED1_PIN,HIGH);
+    digitalWrite(LED2_PIN,HIGH);
+    delay(400);
+    digitalWrite(LED0_PIN,LOW);
+    digitalWrite(LED1_PIN,LOW);
+    digitalWrite(LED2_PIN,LOW);
+    delay(400);
+    digitalWrite(LED0_PIN,HIGH);
+    digitalWrite(LED1_PIN,HIGH);
+    digitalWrite(LED2_PIN,HIGH);
+    delay(400);
+    digitalWrite(LED0_PIN,LOW);
+    digitalWrite(LED1_PIN,LOW);
+    digitalWrite(LED2_PIN,LOW);
   }
 }
 
 
 
 void setup() {
-  // put your setup code here, to run once:
+  
   Serial.begin(9600);
 
   pinMode(LED0_PIN, OUTPUT);
   pinMode(LED1_PIN, OUTPUT);
   pinMode(LED2_PIN, OUTPUT);
-  pinMode(ERRORLED_PIN, OUTPUT);
   digitalWrite(LED0_PIN, LOW); //inicjalne gaszenie diody
   digitalWrite(LED1_PIN, LOW); //inicjalne gaszenie diody
   digitalWrite(LED2_PIN, LOW); //inicjalne gaszenie diody
-  digitalWrite(ERRORLED_PIN, LOW); //inicjalne gaszenie diody
 
 }
 
 void loop() {
-  // put your main code here, to run repeatedly:
-  if(Serial.available() > 0) {
-    String inputCode = Serial.readStringUntil('\n');
-    int materialCode = FindCode(inputCode);
-    Serial.println(MaterialName(materialCode));
-    SignalLED(materialCode);
+  
+  if(Serial.available() > 0) {                          //gdy dostarczono dane z monitora
+    String inputCode = Serial.readStringUntil('\n');    //czytaj te dane
+    int materialCode = FindCode(inputCode);             //szukanie kodu materialu w bazie
+    Serial.println(MaterialName(materialCode));         //wypisanie kodu materialu
+    SignalLED(materialCode);                            //swiecenie LED
   }
 }
