@@ -68,6 +68,7 @@ String MaterialName(int code){
 #define LED0_PIN 4
 #define LED1_PIN 14
 #define LED2_PIN 5
+#define ERRORLED_PIN LED_BUILTIN
 
 
 
@@ -84,6 +85,9 @@ void SignalLED(int code){
       break;
     case 2:
       pin = LED2_PIN;
+      break;
+    case -1:
+      pin = ERRORLED_PIN;
       break;
   }
 
@@ -104,9 +108,11 @@ void setup() {
   pinMode(LED0_PIN, OUTPUT);
   pinMode(LED1_PIN, OUTPUT);
   pinMode(LED2_PIN, OUTPUT);
+  pinMode(ERRORLED_PIN, OUTPUT);
   digitalWrite(LED0_PIN, LOW); //inicjalne gaszenie diody
   digitalWrite(LED1_PIN, LOW); //inicjalne gaszenie diody
   digitalWrite(LED2_PIN, LOW); //inicjalne gaszenie diody
+  digitalWrite(ERRORLED_PIN, LOW); //inicjalne gaszenie diody
 
 }
 
