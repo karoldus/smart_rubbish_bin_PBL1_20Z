@@ -7,7 +7,11 @@
  * 0 - tworzywa sztuczne i metale
  * 1 - papier
  * 2 - szklo
+ * -1 - nieznany typ
  */
+
+
+
 
 //HARDWARE
 //RED(+)->D5
@@ -23,8 +27,12 @@
 #include <ESP8266HTTPClient.h>
 ESP8266WiFiMulti WiFiMulti;
 
+//dane do wifi
+#define wifi_SSID "UPC4466B1C"
+#define wifi_password "xxxxxxxxxxxx"
 
-
+//sciezka do serwera
+#define server_adress "http://192.168.0.39/pbl/codes.php?code="
 
 
 //funkcja dostaje kod kreskowy produktu, a zwraca kod materialu dla tego produktu z serwera
@@ -36,8 +44,7 @@ int FindCode(String code){
     //Serial.print("[HTTP] begin...\n");
 
     
-    String url="http://192.168.0.39/pbl/codes.php?code=";
-    url = url + code;
+    String url = server_adress + code;
     
     http.begin(url); //HTTP
 
@@ -161,7 +168,7 @@ void setup() {
 
   //laczenie z wifi
   WiFi.mode(WIFI_STA);
-  WiFiMulti.addAP("UPC4466B1C", "xxxxxxxxxxx"); //zmienic na haslo i ssid ogolne
+  WiFiMulti.addAP(wifi_SSID, wifi_password); //zmienic na haslo i ssid ogolne
 
 }
 
