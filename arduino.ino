@@ -59,8 +59,11 @@ void loop(){
     {
       if(klawisz == '#') //zatwierdzanie kodu i wysylanie
       {
-        Serial.println(kod);
-        kod = "";
+        if(kod.length()>0)
+        {
+          Serial.println(kod);
+          kod = "";
+        }
       }
       else if (kod.length()>0) //usuwanie ostatniego znaku
       {
