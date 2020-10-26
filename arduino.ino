@@ -1,4 +1,29 @@
+/* Kosz na smieci - kod dla Arduino - obsluga klawiatury i wyswietlacza
+ * 
+ * ©2020, PBL1, grupa 5: Dasiewicz Julia, Duszczyk Karol, Kukla Michal, Twarowski Michal
+ * 
+ * POLACZENIE
+ * 
+ * Arduino - klawiatura
+ * 2,3,4,5,7,8,9 - 1,2,3,4,6,7,8 (liczac od dolu)
+ * 
+ * Arduino - wyswietlacz
+ * A4 - SDA
+ * A5 - SCL
+ * GND - GND
+ * 5V - VCC
+ * 
+ * Arduino - ESP8266
+ * GND - GND
+ * TX - RX
+ */
+
+
+
 #include <Keypad.h> //biblioteka od klawiatury
+#include <LiquidCrystal_I2C.h> //biblioteka do wyswietlacza
+
+LiquidCrystal_I2C lcd(0x27,16,2); //inicjalizacja wyswietlacza
 
 const byte ROWS = 4; // ile wierszy
 const byte COLS = 3; //ile kolumn
@@ -20,9 +45,13 @@ String kod = "";
 
 void setup(){
   Serial.begin(9600);
+  lcd.init();
+  lcd.backlight();
+  lcd.setCursor(0,0);
 }
   
 void loop(){
+  
   char klawisz = klawiatura.getKey();
   
   if (klawisz){
@@ -42,5 +71,10 @@ void loop(){
     {
       kod = kod + klawisz;
     }
+
+    // wyswietlanie na wyswietlaczu
+    lcd.clear();
+    lcd.setCursor(0,0);
+    lcd.print(kod);
   }
 }
