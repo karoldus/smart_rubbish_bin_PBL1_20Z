@@ -28,13 +28,14 @@
 ESP8266WiFiMulti WiFiMulti;
 
 //dane do wifi
-
-#define wifi_SSID "Router14a"
-#define wifi_password "xxxxxxxxxxxxx"
+#define wifi_SSID "UPC4466B1C"
+#define wifi_password "xxxx"
+//#define wifi_SSID "Router14a"
+//#define wifi_password "xxxx"
 
 //sciezka do serwera
-//#define server_adress "http://192.168.0.39/pbl/codes.php?code="
-#define server_adress "http://192.168.0.103/pbl/codes.php?code="
+#define server_adress "http://192.168.0.39/pbl/codes.php?code="
+//#define server_adress "http://192.168.0.103/pbl/codes.php?code="
 
 
 //funkcja dostaje kod kreskowy produktu, a zwraca kod materialu dla tego produktu z serwera
@@ -64,7 +65,7 @@ int FindCode(String code){
         String payload = http.getString();
         http.end();
         return(payload.toInt());
-      }                                             //<------------- Tu jest blad, bo serwer zwraca 400, a nie 200
+      }                                             
     } 
     else //gdy blad polaczenia z serwerem
     { 
@@ -169,7 +170,7 @@ void setup() {
 
   //laczenie z wifi
   WiFi.mode(WIFI_STA);
-  WiFiMulti.addAP(wifi_SSID, wifi_password); //zmienic na haslo i ssid ogolne
+  WiFiMulti.addAP(wifi_SSID, wifi_password);
 
 }
 
